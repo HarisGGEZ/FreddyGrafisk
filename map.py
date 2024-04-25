@@ -19,6 +19,9 @@ class kartaKlass():
         self.ner = None
         self.text = ""
         self.fullText = ""
+        self.choice = ""
+        self.x = ""
+        self.y = ""
         
     # Printar en bild av kartan
     def printMap(self):
@@ -74,6 +77,7 @@ class kartaKlass():
         
     # Förflyttelse beroende på nuvarande plats
     def move(self, move):
+        print(self.location)
         
         if move == "vänster" and self.o == ">-O":
             self.o = "   "
@@ -129,30 +133,22 @@ class kartaKlass():
             return "exit attempt"
 
         elif move == "ner" and self.d == ">-O":
-            self.fullText = ("(d) Höger Hall, (a) Vänster Hall eller (s) Köket")
-            sleep(0.3)
-            keyboard.read_key()
-            if keyboard.is_pressed("a"):
-                    self.ner = "vänster"
-            if keyboard.is_pressed("d"):
-                    self.ner = "höger"
-            if keyboard.is_pressed("s"):
-                self.ner = "kök"
+                self.old = "matsal"
+                self.k = ">-O"
+                self.d = "   "
 
-            if self.d == ">-O" and self.ner == "vänster":
+        elif move == "vänsterhall" and self.d == ">-O":
                 self.old = "matsal"
                 self.w = ">-O"
                 self.d = "   "
         
-            if self.d == ">-O" and self.ner == "höger":
+        elif move == "högerhall" and self.d == ">-O":
                 self.old = "matsal"
                 self.e = ">-O"
                 self.d = "   "
         
-            if self.d == ">-O" and self.ner == "kök" :
-                self.old = "matsal"
-                self.k = ">-O"
-                self.d = "   "
+            
+      
         
         elif move == "höger hall" and self.d == ">-O":
             self.old = "matsal"
@@ -250,8 +246,6 @@ class kartaKlass():
     
     # Visar vart man kan röra sig
     def printChoice(self):
-        if self.fullText == "(d) Höger Hall, (a) Vänster Hall eller (s) Köket":
-            return self.fullText
         Plats = self.location.capitalize()
         if self.o == ">-O":
            self.text = "(a) Vänster till Vänstra Hallen \n(d) Höger till Högra Hallen"
@@ -262,23 +256,29 @@ class kartaKlass():
         if self.s == ">-O":
             self.text = "(d) Höger till Vänstra Hallen"
         if self.d == ">-O":
-            self.text = "(a) Vänster till Prishörnan \n(d) Höger till toaletterna. \n(s) Ner till Högra eller Vänstra hall eller Köket. \n(w) Fram till Utgången (Alla nycklar krävs)"
+            self.text = "(a) Vänster till Prishörnan \n(d) Höger till toaletterna. \n(s) Ner till Köket. \n(z) Ner till vänster hall. \n(x) Ner till höger hall \n(w) Fram till Utgången"
         if self.t == ">-O":
             self.text = "(a) Vänster till Matsalen"
         if self.b == ">-O":
             self.text = "(d) Höger till Matsalen"
         if self.k == ">-O":
             self.text = "(w) Tillbaka till Matsalen"
-        return "Du befinner dig i" + " " + Plats + "\n" + "Du kan gå:\n" + self.text
+        return "Du befinner dig i " + Plats + "\n" + "Du kan gå:\n" + self.text
     
     # Skickar tillbaka nuvarande position
     def returnLocation(self):
         if self.o == ">-O":
             self.location = "kontoret"
+            self.x = 0.63
+            self.y = 0.9
         if self.w == ">-O":
             self.location = "vänster hall"
+            self.x = 0.535
+            self.y = 0.8
         if self.e == ">-O":
             self.location = "höger hall"
+            self.x = 0.725
+            self.y = 0.8
         if self.s == ">-O":
             self.location = "förrådet"
         if self.d == ">-O":
@@ -312,16 +312,26 @@ class kartaKlass():
         return self.steps
     
     def movement(self):
-                choice = " "
-                keyboard.read_key()
-                if keyboard.is_pressed("a"):
-                    choice = "vänster"
-                elif keyboard.is_pressed("d"):
-                    choice = "höger"
-                elif keyboard.is_pressed("w"):
-                    choice = "fram"
-                elif keyboard.is_pressed("s"):
-                    choice = "ner"
-                print(choice)
-                return choice
+                    self.choice = " "
+                    keyboard.read_key()
+                    if keyboard.is_pressed("a"):
+                        self.choice = "vänster"
+                    elif keyboard.is_pressed("d"):
+                        self.choice = "höger"
+                    elif keyboard.is_pressed("w"):
+                        self.choice = "fram"
+                    elif keyboard.is_pressed("s"):
+                        self.choice = "ner"
+                    elif keyboard.is_pressed("x"):
+                        self.choice = "högerhall"
+                    elif keyboard.is_pressed("z"):
+                        self.choice = "vänsterhall"
 
+                    print(self.choice)
+                    return self.choice
+
+
+
+   
+    def returnPosition(self):
+        return self.x, self.y
