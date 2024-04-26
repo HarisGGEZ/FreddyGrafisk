@@ -256,7 +256,7 @@ class kartaKlass():
         if self.s == ">-O":
             self.text = "(d) Höger till Vänstra Hallen"
         if self.d == ">-O":
-            self.text = "(a) Vänster till Prishörnan \n(d) Höger till toaletterna. \n(s) Ner till Köket. \n(z) Ner till vänster hall. \n(x) Ner till höger hall \n(w) Fram till Utgången"
+            self.text = "(a) Vänster till Prishörnan \n(d) Höger till toaletterna. \n(s) Ner till Köket. \n(q) Ner till vänster hall. \n(e) Ner till höger hall \n(w) Fram till Utgången"
         if self.t == ">-O":
             self.text = "(a) Vänster till Matsalen"
         if self.b == ">-O":
@@ -269,26 +269,36 @@ class kartaKlass():
     def returnLocation(self):
         if self.o == ">-O":
             self.location = "kontoret"
-            self.x = 0.63
-            self.y = 0.9
+            self.x = 0.62
+            self.y = 0.85
         if self.w == ">-O":
             self.location = "vänster hall"
-            self.x = 0.535
+            self.x = 0.53
             self.y = 0.8
         if self.e == ">-O":
             self.location = "höger hall"
-            self.x = 0.725
+            self.x = 0.72
             self.y = 0.8
         if self.s == ">-O":
             self.location = "förrådet"
+            self.x = 0.435
+            self.y = 0.725
         if self.d == ">-O":
-           self.location = "matsalen"
+            self.location = "matsalen"
+            self.x = 0.62
+            self.y = 0.35
         if self.t == ">-O":
           self.location = "toaletterna"
+          self.x = 0.88
+          self.y = 0.35
         if self.b == ">-O":
             self.location = "prishörnan"
+            self.x = 0.36
+            self.y = 0.22
         if self.k == ">-O":
             self.location = "köket"
+            self.x = 0.85
+            self.y = 0.68
         return self.location
     
     # Kollar ifall man blir jagad.
@@ -322,9 +332,9 @@ class kartaKlass():
                         self.choice = "fram"
                     elif keyboard.is_pressed("s"):
                         self.choice = "ner"
-                    elif keyboard.is_pressed("x"):
+                    elif keyboard.is_pressed("e"):
                         self.choice = "högerhall"
-                    elif keyboard.is_pressed("z"):
+                    elif keyboard.is_pressed("q"):
                         self.choice = "vänsterhall"
 
                     print(self.choice)
