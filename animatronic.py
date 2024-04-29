@@ -8,10 +8,13 @@ class Fredrik():
         self.cheat = False
         self.x = ""
         self.y = ""
-        
+        self.hunting = False
+
     # Förflyttelse för Fredrik
     def move(self):
-        if self.cheat == False:
+        print(self.hunting)
+        if self.hunting == False:
+            print("Joj")
             if self.location == "scen":
                 self.location = "matsalen"
                 self.old = "scen"
@@ -81,3 +84,14 @@ class Fredrik():
             self.x = 0.9
             self.y = 0.68
         return self.x, self.y
+    
+
+    def chooseLocation(self, location):
+        self.old = self.location
+        self.location = location
+        self.hunting = True
+
+    def reset(self):
+        self.hunting = False
+        if self.location == "kontoret":
+            self.location = self.old

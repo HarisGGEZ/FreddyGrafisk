@@ -2,22 +2,33 @@ import tkinter as tk
 from tkinter import *
 import map
 import animatronic
-from time import sleep
+import webbrowser
 Map = map.kartaKlass()
 freddy = animatronic.Fredrik()
 
 def freddyMove():
     freddy.move()
+    if Map.hunted("") == True:
+        huntBox.place(relx=0.55, rely=0)
+        freddy.chooseLocation(Map.returnLocation())
+    elif Map.hunted("") == False:
+        freddy.reset()
+        huntBox.place(relx=1,rely=1)
     freddyIcon.place(relx=freddy.position()[0], rely=freddy.position()[1])
 
 def moving():
     root.after(5, moveIcon)
     choice = Map.movement()
     Map.move(choice)
+    if Map.returnLocation() == freddy.returnLocation():
+        Map.hunted("same")
+
+    if Map.run() >= 5:
+        root.destroy()
+        webbrowser.open("https://en.wikipedia.org/wiki/Death")
     if choice in ["höger", "vänster", "ner", "fram", "högerhall", "vänsterhall"]:
         root.after(5, freddyMove)
-    Map.returnLocation()
-    
+
 
 def textChanger():
     moving()
@@ -25,6 +36,7 @@ def textChanger():
     textBox.config(text=chosenText, justify= LEFT)
     root.after(300, textChanger)
 
+    
 def moveIcon():
     playerIcon.place(relx=Map.returnPosition()[0], rely=Map.returnPosition()[1])
 
@@ -36,6 +48,9 @@ tk.Label(image=img).place(relx=0.33, rely=0.05)
 
 textBox = tk.Label(text=Map.printChoice(), font=("TkDefaultFont", 25), justify=LEFT)
 textBox.place(relx=0, rely=0.05)
+
+huntBox = tk.Label(text="Fredrik jagar dig!", font=("TkDefaultFont", 25), justify=LEFT)
+huntBox.place(relx=1,rely=1)
 
 playerImg = PhotoImage(file="player.png")
 playerIcon = tk.Label(image=playerImg)

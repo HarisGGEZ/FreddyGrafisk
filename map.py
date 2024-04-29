@@ -314,7 +314,8 @@ class kartaKlass():
     def run(self):
         if self.hunt == True and self.o != ">-O":
             self.steps = self.steps + 1
-            print("\033[91mFredrik Jagar dig!\n\033[0m")
+            print(self.steps)
+
         if self.o == ">-O":
             self.steps = 0
             print("Du hann undan\n")
@@ -337,7 +338,6 @@ class kartaKlass():
                     elif keyboard.is_pressed("q"):
                         self.choice = "vänsterhall"
 
-                    print(self.choice)
                     return self.choice
 
 
@@ -345,3 +345,6 @@ class kartaKlass():
    
     def returnPosition(self):
         return self.x, self.y
+        
+    def returnMessage(self):
+        return "Fredrik jagar dig!"
