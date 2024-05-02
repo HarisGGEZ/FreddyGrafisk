@@ -12,9 +12,7 @@ class Fredrik():
 
     # Förflyttelse för Fredrik
     def move(self):
-        print(self.hunting)
         if self.hunting == False:
-            print("Joj")
             if self.location == "scen":
                 self.location = "matsalen"
                 self.old = "scen"

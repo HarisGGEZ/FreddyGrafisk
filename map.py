@@ -22,6 +22,7 @@ class kartaKlass():
         self.choice = ""
         self.x = ""
         self.y = ""
+        self.same = None
         
     # Printar en bild av kartan
     def printMap(self):
@@ -76,9 +77,7 @@ class kartaKlass():
         
         
     # Förflyttelse beroende på nuvarande plats
-    def move(self, move):
-        print(self.location)
-        
+    def move(self, move):        
         if move == "vänster" and self.o == ">-O":
             self.o = "   "
             self.old = "kontor"
@@ -305,26 +304,25 @@ class kartaKlass():
     def hunted(self, roomStatus):
         if roomStatus == "same":
             self.hunt = True
-            print("\033[91mFredrik såg dig!! Skynda dig tillbaka till kontoret!\n\033[0m")
         if self.hunt == True:
             return True
         else:
             return False
     # Skickar tillbaka hur många steg man tagit medan man blir jagad.
     def run(self):
-        if self.hunt == True and self.o != ">-O":
-            self.steps = self.steps + 1
-            print(self.steps)
+        if self.location != self.same:
+            self.same = self.location
+            if self.hunt == True and self.o != ">-O":
+                self.steps = self.steps + 1
+                print(self.steps)
 
         if self.o == ">-O":
             self.steps = 0
-            print("Du hann undan\n")
             self.hunt = False
         return self.steps
     
     def movement(self):
                     self.choice = " "
-                    keyboard.read_key()
                     if keyboard.is_pressed("a"):
                         self.choice = "vänster"
                     elif keyboard.is_pressed("d"):
@@ -346,5 +344,3 @@ class kartaKlass():
     def returnPosition(self):
         return self.x, self.y
         
-    def returnMessage(self):
-        return "Fredrik jagar dig!"

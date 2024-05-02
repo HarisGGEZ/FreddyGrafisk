@@ -1,10 +1,16 @@
 import tkinter as tk
 from tkinter import *
+from PIL import Image,ImageTk
 import map
 import animatronic
 import webbrowser
+import rooms
+
+
 Map = map.kartaKlass()
 freddy = animatronic.Fredrik()
+
+restroomFound = False
 
 def freddyMove():
     freddy.move()
@@ -23,9 +29,25 @@ def moving():
     if Map.returnLocation() == freddy.returnLocation():
         Map.hunted("same")
 
-    if Map.run() >= 5:
-        root.destroy()
-        webbrowser.open("https://en.wikipedia.org/wiki/Death")
+    if Map.run() >= 6:
+        #root.destroy()
+        #webbrowser.open("https://en.wikipedia.org/wiki/Death")
+        pass
+        
+    
+    if Map.returnLocation() == "toaletterna":
+            if rooms.restrooms() == "found":
+                eventBox.config(text="Du hittar \nen Nyckel \noch ett mynt \ni toalleterna")
+    
+    if Map.returnLocation() == "köket":
+            if rooms.kitchen() == "found":
+                eventBox.config(text=("Du hittar \ntvå mynt och \n en nummerlapp \ni köket"))
+    if Map.returnLocation() == "förrådet":
+            if rooms.supplycloset() == "used":
+                eventBox.config(text=("Du hittar \ntvå mynt och \n en nyckel \ni kassavalvet"))
+            if rooms.supplycloset() == "no":
+                 eventBox.config(text=("Du hittar ett kassavalv.\nHär behövs en kod"))
+    
     if choice in ["höger", "vänster", "ner", "fram", "högerhall", "vänsterhall"]:
         root.after(5, freddyMove)
 
@@ -34,7 +56,8 @@ def textChanger():
     moving()
     chosenText = Map.printChoice()
     textBox.config(text=chosenText, justify= LEFT)
-    root.after(300, textChanger)
+    inventoryBox.config(text=rooms.inventory(), justify=LEFT)
+    root.after(150, textChanger)
 
     
 def moveIcon():
@@ -43,7 +66,14 @@ def moveIcon():
 root = tk.Tk()
 root.attributes('-fullscreen', True)
 
-img = PhotoImage(file="layout.png")
+
+
+img = (Image.open("layout.png"))
+img = img.resize((int(root.winfo_screenwidth()*(1012/1536)), int(root.winfo_screenheight()*(786/864))))
+print(int(root.winfo_screenwidth()*(1012/1536)), root.winfo_screenheight()*())
+
+
+img = ImageTk.PhotoImage(img)
 tk.Label(image=img).place(relx=0.33, rely=0.05)
 
 textBox = tk.Label(text=Map.printChoice(), font=("TkDefaultFont", 25), justify=LEFT)
@@ -51,6 +81,12 @@ textBox.place(relx=0, rely=0.05)
 
 huntBox = tk.Label(text="Fredrik jagar dig!", font=("TkDefaultFont", 25), justify=LEFT)
 huntBox.place(relx=1,rely=1)
+
+inventoryBox = tk.Label(text = rooms.inventory(), font=("TkDefaultFont", 25), justify=LEFT)
+inventoryBox.place(relx=0, rely=0.5)
+
+eventBox = tk.Label(text ="", font=("TkDefaultFont", 25), justify=LEFT)
+eventBox.place(relx=0.15, rely=0.5)
 
 playerImg = PhotoImage(file="player.png")
 playerIcon = tk.Label(image=playerImg)
@@ -60,6 +96,5 @@ freddyImg = PhotoImage(file="freddy.png")
 freddyIcon = tk.Label(image=freddyImg)
 freddyIcon.place(relx=0.61, rely=0.1)
 
-root.after(300, textChanger)
-
+root.after(50, textChanger)
 root.mainloop()
