@@ -91,5 +91,5 @@ class Fredrik():
 
     def reset(self):
         self.hunting = False
-        if self.location == "kontoret":
-            self.location = self.old
+        print(self.location)
+        self.location = choice(["matsalen", "scen", "vänster hall", "prishörnan", "höger hall", "toaletterna", "köket"])

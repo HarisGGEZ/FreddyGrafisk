@@ -23,6 +23,7 @@ class kartaKlass():
         self.x = ""
         self.y = ""
         self.same = None
+        self.exit = False
         
     # Printar en bild av kartan
     def printMap(self):
@@ -78,6 +79,7 @@ class kartaKlass():
         
     # Förflyttelse beroende på nuvarande plats
     def move(self, move):        
+        self.exit = False
         if move == "vänster" and self.o == ">-O":
             self.o = "   "
             self.old = "kontor"
@@ -129,7 +131,7 @@ class kartaKlass():
             self.d = "   "
 
         elif move == "fram" and self.d == ">-O":
-            return "exit attempt"
+            self.exit = True
 
         elif move == "ner" and self.d == ">-O":
                 self.old = "matsal"
@@ -306,7 +308,7 @@ class kartaKlass():
             self.hunt = True
         if self.hunt == True:
             return True
-        else:
+        elif self.o == ">-O":
             return False
     # Skickar tillbaka hur många steg man tagit medan man blir jagad.
     def run(self):
@@ -314,7 +316,6 @@ class kartaKlass():
             self.same = self.location
             if self.hunt == True and self.o != ">-O":
                 self.steps = self.steps + 1
-                print(self.steps)
 
         if self.o == ">-O":
             self.steps = 0
@@ -335,7 +336,6 @@ class kartaKlass():
                         self.choice = "högerhall"
                     elif keyboard.is_pressed("q"):
                         self.choice = "vänsterhall"
-
                     return self.choice
 
 
@@ -344,3 +344,8 @@ class kartaKlass():
     def returnPosition(self):
         return self.x, self.y
         
+    def returnExit(self):
+        return self.exit
+    def returnSteps(self):
+        print(self.steps)
+        return self.steps

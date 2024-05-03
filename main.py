@@ -3,42 +3,50 @@ from tkinter import *
 from PIL import Image,ImageTk
 import map
 import animatronic
-import webbrowser
 import rooms
+import keyboard
+from tkvideoplayer import TkinterVideo
+
 
 
 Map = map.kartaKlass()
 freddy = animatronic.Fredrik()
 
-restroomFound = False
+living = ["alive"]
 
 def freddyMove():
     freddy.move()
     if Map.hunted("") == True:
         huntBox.place(relx=0.55, rely=0)
+        numberBox.config(text=( str(6 - Map.returnSteps())  + " steg tills Fredrik fångar dig"))
+        numberBox.place(relx=0.75, rely=0)
         freddy.chooseLocation(Map.returnLocation())
     elif Map.hunted("") == False:
         freddy.reset()
         huntBox.place(relx=1,rely=1)
+        numberBox.place(relx=1, rely=1)
     freddyIcon.place(relx=freddy.position()[0], rely=freddy.position()[1])
 
 def moving():
-    root.after(5, moveIcon)
+    root.after(0, moveIcon)
     choice = Map.movement()
     Map.move(choice)
+    
     if Map.returnLocation() == freddy.returnLocation():
         Map.hunted("same")
-
+    if keyboard.is_pressed("esc"):
+         root.after(0, quit)
     if Map.run() >= 6:
-        #root.destroy()
-        #webbrowser.open("https://en.wikipedia.org/wiki/Death")
-        pass
-        
+        living.remove("alive")
+        videoplayer = TkinterVideo(master=root, scaled=True)
+        videoplayer.load(r"freddy.mp4")
+        videoplayer.pack(expand=True, fill="both")
+        videoplayer.play()
+        root.after(1160, quit)
     
     if Map.returnLocation() == "toaletterna":
             if rooms.restrooms() == "found":
                 eventBox.config(text="Du hittar \nen Nyckel \noch ett mynt \ni toalleterna")
-    
     if Map.returnLocation() == "köket":
             if rooms.kitchen() == "found":
                 eventBox.config(text=("Du hittar \ntvå mynt och \n en nummerlapp \ni köket"))
@@ -47,30 +55,43 @@ def moving():
                 eventBox.config(text=("Du hittar \ntvå mynt och \n en nyckel \ni kassavalvet"))
             if rooms.supplycloset() == "no":
                  eventBox.config(text=("Du hittar ett kassavalv.\nHär behövs en kod"))
-    
-    if choice in ["höger", "vänster", "ner", "fram", "högerhall", "vänsterhall"]:
-        root.after(5, freddyMove)
+    if Map.returnLocation() == "prishörnan":
+            if rooms.prizecorner() == "bought":
+                eventBox.config(text=("Du köper en nyckel för 5 mynt"))
+            if rooms.prizecorner() == "no":
+                 eventBox.config(text=("5 mynt för\nen Nyckel"))
+    if Map.returnLocation() == "matsalen" or Map.returnLocation() == "vänster hall":
+         eventBox.config(text="")
+    if Map.returnExit() == True and rooms.inventorySize() == 4:
+     winScreen.place(relx=-0.001, rely=-0.002)
 
+        
+
+        
+    if choice in ["höger", "vänster", "ner", "fram", "högerhall", "vänsterhall"]:
+        root.after(0, freddyMove)
 
 def textChanger():
     moving()
     chosenText = Map.printChoice()
     textBox.config(text=chosenText, justify= LEFT)
     inventoryBox.config(text=rooms.inventory(), justify=LEFT)
-    root.after(150, textChanger)
+    if "alive" in living:
+        root.after(150, textChanger)
 
     
 def moveIcon():
     playerIcon.place(relx=Map.returnPosition()[0], rely=Map.returnPosition()[1])
 
+def quit():
+     root.destroy()
+
 root = tk.Tk()
 root.attributes('-fullscreen', True)
 
 
-
 img = (Image.open("layout.png"))
 img = img.resize((int(root.winfo_screenwidth()*(1012/1536)), int(root.winfo_screenheight()*(786/864))))
-print(int(root.winfo_screenwidth()*(1012/1536)), root.winfo_screenheight()*())
 
 
 img = ImageTk.PhotoImage(img)
@@ -81,6 +102,8 @@ textBox.place(relx=0, rely=0.05)
 
 huntBox = tk.Label(text="Fredrik jagar dig!", font=("TkDefaultFont", 25), justify=LEFT)
 huntBox.place(relx=1,rely=1)
+numberBox = tk.Label(text=Map.returnSteps, font=("TkDefaultFont", 25), justify=LEFT)
+numberBox.place(relx=1,rely=1)
 
 inventoryBox = tk.Label(text = rooms.inventory(), font=("TkDefaultFont", 25), justify=LEFT)
 inventoryBox.place(relx=0, rely=0.5)
@@ -95,6 +118,14 @@ playerIcon.place(relx=0.62, rely=0.85)
 freddyImg = PhotoImage(file="freddy.png")
 freddyIcon = tk.Label(image=freddyImg)
 freddyIcon.place(relx=0.61, rely=0.1)
+
+winImg = (Image.open("escape.png"))
+winImg= winImg.resize((int(root.winfo_screenwidth()), int(root.winfo_screenheight())))
+winImg = ImageTk.PhotoImage(winImg)
+winScreen = tk.Label(image=winImg)
+winScreen.place(relx=1, rely=1)
+
+
 
 root.after(50, textChanger)
 root.mainloop()

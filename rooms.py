@@ -8,9 +8,7 @@ inventoryList = []
 coinList = []
 codeReal = str(random.randint(1000, 9999))
 text = "hello"
-restroomFound = False
-kitchenFound = False
-supplyUsed = False
+itemsUsed = []
 
 def inventory():
     inventoryList.sort()
@@ -87,50 +85,44 @@ def codeUsed():
 
 # Event i förrådet där man kan skriva in en kod
 def supplycloset():
-                    global supplyUsed
-                    if supplyUsed == False:
+                    if "closet" not in itemsUsed:
                        if codeReal in inventoryList: 
                             inventoryAdd("Nyckel 1")
                             coinList.append("coin")
                             coinList.append("coin")
-                            supplyUsed = True
+                            itemsUsed.append("closet")
                             return "used"       
                        if codeReal not in inventoryList:
                             return "no"
 
 # går man in i köket får man alternativet att leta runt, väljs det får man 2 myn samt koden till kassavalvet
 def kitchen():
-            global kitchenFound
-            if kitchenFound == False:
+            if "kitchen" not in itemsUsed:
                 print(f"Du hittade 2 mynt och en lapp med numret {codeReal}")
                 inventoryAdd(codeReal)
                 coinList.append("coin")
                 coinList.append("coin")
-                kitchenFound = True
+                itemsUsed.append("kitchen")
                 return "found"
 
         
 
 # likadant som ovanför fast här hittar du en till nyckel som läggs in i listan (inventory)
 def restrooms():
-    global restroomFound
-    if restroomFound == False:
+    if "restrooms" not in itemsUsed:
         inventoryAdd("Nyckel 2")
         coinList.append("coin")
-        restroomFound = True
+        itemsUsed.append("restrooms")
         return "found"
         
 # i prishörnan kan du välja att köpa en nyckel, koden berättar om du kan köpa eller inte har råd, köper du en nyckel blir antalet nycklar 1 fler samt dina coins blir 3 färre
 def prizecorner():
-    global prizeBought
-    if prizeBought == False:
-
+    if "prizecorner" not in itemsUsed:
         if len(coinList) == 5:
             coinList.clear()
             inventoryAdd("Nyckel 3")
-            prizeBought = True
+            itemsUsed.append("prizecorner")
             return "bought"
-            
         else: 
             return "no"
         
@@ -155,3 +147,7 @@ def itemsReset():
 
 def returnCode():
      return codeReal
+
+def inventorySize():
+     print(len(inventoryList))
+     return len(inventoryList)
