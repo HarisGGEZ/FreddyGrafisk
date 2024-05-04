@@ -4,7 +4,7 @@ Grafisk version av det populara spelet [Fredriks Pizzeria](https://github.com/Ha
 # Moduler
 - keyboard
 - av
-- pillow
+- pillow\
 Installera genom "pip install modulnamn"
 
 [TkVideoPlayer](https://github.com/PaulleDemon/tkVideoPlayer) tagen från [PaulleDemon](https://github.com/PaulleDemon)
