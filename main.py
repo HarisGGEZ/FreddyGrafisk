@@ -13,6 +13,7 @@ freddy = animatronic.Fredrik()
 
 living = ["alive"]
 
+# Fredriks rörelse + ändrar text när man blir jagad
 def freddyMove():
     freddy.move()
     if Map.hunted("") == True:
@@ -26,6 +27,7 @@ def freddyMove():
         numberBox.place(relx=1, rely=1)
     freddyIcon.place(relx=freddy.position()[0], rely=freddy.position()[1])
 
+# Spelarens rörelse + events
 def moving():
     root.after(0, moveIcon)
     choice = Map.movement()
@@ -63,13 +65,11 @@ def moving():
          eventBox.config(text="")
     if Map.returnExit() == True and rooms.inventorySize() == 4:
      winScreen.place(relx=-0.001, rely=-0.002)
-
-        
-
         
     if choice in ["höger", "vänster", "ner", "fram", "högerhall", "vänsterhall"]:
         root.after(0, freddyMove)
 
+# Ändrar text på rörelsetexten
 def textChanger():
     moving()
     chosenText = Map.printChoice()
@@ -78,20 +78,22 @@ def textChanger():
     if "alive" in living:
         root.after(150, textChanger)
 
-    
+# flyttar spelar bilden
 def moveIcon():
     playerIcon.place(relx=Map.returnPosition()[0], rely=Map.returnPosition()[1])
 
+# Avslutar 
 def quit():
      root.destroy()
 
+# Skapar root för tkinter
 root = tk.Tk()
 root.attributes('-fullscreen', True)
 
 
+# Skapar alla labels (bilder, text)
 img = (Image.open("images/layout.png"))
 img = img.resize((int(root.winfo_screenwidth()*(1012/1536)), int(root.winfo_screenheight()*(786/864))))
-
 
 img = ImageTk.PhotoImage(img)
 tk.Label(image=img).place(relx=0.33, rely=0.05)
@@ -125,6 +127,6 @@ winScreen = tk.Label(image=winImg)
 winScreen.place(relx=1, rely=1)
 
 
-
+# Loop för fönstret
 root.after(50, textChanger)
 root.mainloop()

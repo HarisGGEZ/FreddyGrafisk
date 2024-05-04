@@ -97,7 +97,6 @@ def supplycloset():
 # går man in i köket får man alternativet att leta runt, väljs det får man 2 myn samt koden till kassavalvet
 def kitchen():
             if "kitchen" not in itemsUsed:
-                print(f"Du hittade 2 mynt och en lapp med numret {codeReal}")
                 inventoryAdd(codeReal)
                 coinList.append("coin")
                 coinList.append("coin")
@@ -139,9 +138,11 @@ def itemsReset():
          print("")
 
 
+# Skickar tillbaka koden
 def returnCode():
      return codeReal
 
+
+# Skickar tillbaka storleken på inventoriet
 def inventorySize():
-     print(len(inventoryList))
      return len(inventoryList)

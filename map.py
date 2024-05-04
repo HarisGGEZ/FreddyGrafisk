@@ -322,6 +322,7 @@ class kartaKlass():
             self.hunt = False
         return self.steps
     
+    # skickar tillbaka val beroende på vad för key som är tryckt
     def movement(self):
                     self.choice = " "
                     if keyboard.is_pressed("a"):
@@ -341,11 +342,12 @@ class kartaKlass():
 
 
    
+   # Returnar olika information
     def returnPosition(self):
         return self.x, self.y
         
     def returnExit(self):
         return self.exit
+    
     def returnSteps(self):
-        print(self.steps)
         return self.steps
