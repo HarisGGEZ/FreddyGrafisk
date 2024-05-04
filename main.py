@@ -8,7 +8,6 @@ import keyboard
 from tkvideoplayer import TkinterVideo
 
 
-
 Map = map.kartaKlass()
 freddy = animatronic.Fredrik()
 
@@ -39,7 +38,7 @@ def moving():
     if Map.run() >= 6:
         living.remove("alive")
         videoplayer = TkinterVideo(master=root, scaled=True)
-        videoplayer.load(r"freddy.mp4")
+        videoplayer.load(r"images/freddy.mp4")
         videoplayer.pack(expand=True, fill="both")
         videoplayer.play()
         root.after(1160, quit)
@@ -90,7 +89,7 @@ root = tk.Tk()
 root.attributes('-fullscreen', True)
 
 
-img = (Image.open("layout.png"))
+img = (Image.open("images/layout.png"))
 img = img.resize((int(root.winfo_screenwidth()*(1012/1536)), int(root.winfo_screenheight()*(786/864))))
 
 
@@ -111,15 +110,15 @@ inventoryBox.place(relx=0, rely=0.5)
 eventBox = tk.Label(text ="", font=("TkDefaultFont", 25), justify=LEFT)
 eventBox.place(relx=0.15, rely=0.5)
 
-playerImg = PhotoImage(file="player.png")
+playerImg = PhotoImage(file="images/player.png")
 playerIcon = tk.Label(image=playerImg)
 playerIcon.place(relx=0.62, rely=0.85)
 
-freddyImg = PhotoImage(file="freddy.png")
+freddyImg = PhotoImage(file="images/freddy.png")
 freddyIcon = tk.Label(image=freddyImg)
 freddyIcon.place(relx=0.61, rely=0.1)
 
-winImg = (Image.open("escape.png"))
+winImg = (Image.open("images/escape.png"))
 winImg= winImg.resize((int(root.winfo_screenwidth()), int(root.winfo_screenheight())))
 winImg = ImageTk.PhotoImage(winImg)
 winScreen = tk.Label(image=winImg)
