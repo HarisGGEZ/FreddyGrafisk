@@ -1,7 +1,6 @@
 import random
 import time
 #import ascasciimodule
-from playsound import playsound
 import keyboard
 
 inventoryList = []
@@ -126,12 +125,7 @@ def prizecorner():
         else: 
             return "no"
         
-def dead():
-    #asciimodule.death()
-    try:
-        playsound("freddy.mp3")
-    except:
-         pass
+
 
 # Tar bort alla items
 def itemsReset():

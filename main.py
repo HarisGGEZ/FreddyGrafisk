@@ -96,18 +96,18 @@ img = img.resize((int(root.winfo_screenwidth()*(1012/1536)), int(root.winfo_scre
 img = ImageTk.PhotoImage(img)
 tk.Label(image=img).place(relx=0.33, rely=0.05)
 
-textBox = tk.Label(text=Map.printChoice(), font=("TkDefaultFont", 25), justify=LEFT)
+textBox = tk.Label(text=Map.printChoice(), font=("TkDefaultFont", 23), justify=LEFT)
 textBox.place(relx=0, rely=0.05)
 
-huntBox = tk.Label(text="Fredrik jagar dig!", font=("TkDefaultFont", 25), justify=LEFT)
+huntBox = tk.Label(text="Fredrik jagar dig!", font=("TkDefaultFont", 23), justify=LEFT)
 huntBox.place(relx=1,rely=1)
-numberBox = tk.Label(text=Map.returnSteps, font=("TkDefaultFont", 25), justify=LEFT)
+numberBox = tk.Label(text=Map.returnSteps, font=("TkDefaultFont", 23), justify=LEFT)
 numberBox.place(relx=1,rely=1)
 
-inventoryBox = tk.Label(text = rooms.inventory(), font=("TkDefaultFont", 25), justify=LEFT)
+inventoryBox = tk.Label(text = rooms.inventory(), font=("TkDefaultFont", 23), justify=LEFT)
 inventoryBox.place(relx=0, rely=0.5)
 
-eventBox = tk.Label(text ="", font=("TkDefaultFont", 25), justify=LEFT)
+eventBox = tk.Label(text ="", font=("TkDefaultFont", 23), justify=LEFT)
 eventBox.place(relx=0.15, rely=0.5)
 
 playerImg = PhotoImage(file="images/player.png")
